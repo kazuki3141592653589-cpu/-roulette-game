@@ -1,688 +1,234 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ja">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>Roulette Solo</title>
-
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+<title>COIN DROP</title>
 <style>
-* {
-  box-sizing: border-box;
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;width:100%;height:100%;overflow-x:hidden;background:#080b13;color:#fff;font-family:Arial,sans-serif}
+button,select{font:inherit}
+button{border:1px solid #52678d;border-radius:7px;padding:7px;background:linear-gradient(#293957,#18233a);color:white;font-weight:800;font-size:11px}
+button:disabled{opacity:.35}
+.app{max-width:1100px;margin:auto;padding:8px;display:flex;flex-direction:column;gap:8px;min-height:100vh}
+header{height:38px;flex-shrink:0;display:flex;align-items:center;justify-content:space-between}
+.logo{font-weight:1000;font-size:21px;font-style:italic;color:#ffd45c}
+.small{font-size:9px;color:#aab9d3}
+.money{font-weight:900;font-size:18px;color:#ffd45c}
+.pill{padding:4px 8px;border:1px solid #303e5d;border-radius:7px;background:#121b2c}
+.layout{display:grid;grid-template-columns:1fr;gap:8px}
+@media(min-width:768px){
+ .layout{grid-template-columns:1.1fr .9fr}
 }
-
-body {
-  margin: 0;
-  background: #10131c;
-  color: white;
-  font-family: Arial, sans-serif;
-  text-align: center;
-}
-
-h1 {
-  margin: 20px 0 5px;
-}
-
-#coins {
-  font-size: 22px;
-  color: #ffd700;
-  margin-bottom: 15px;
-}
-
-/* ルーレット */
-.wheel-area {
-  position: relative;
-  width: 320px;
-  height: 320px;
-  margin: 20px auto;
-}
-
-#wheel {
-  width: 320px;
-  height: 320px;
-  border-radius: 50%;
-  border: 10px solid gold;
-
-  background:
-    conic-gradient(
-      #c62828 0deg 10deg,
-      #111 10deg 20deg,
-      #c62828 20deg 30deg,
-      #111 30deg 40deg,
-      #c62828 40deg 50deg,
-      #111 50deg 60deg,
-      #c62828 60deg 70deg,
-      #111 70deg 80deg,
-      #c62828 80deg 90deg,
-      #111 90deg 100deg,
-      #c62828 100deg 110deg,
-      #111 110deg 120deg,
-      #c62828 120deg 130deg,
-      #111 130deg 140deg,
-      #c62828 140deg 150deg,
-      #111 150deg 160deg,
-      #c62828 160deg 170deg,
-      #111 170deg 180deg,
-      #c62828 180deg 190deg,
-      #111 190deg 200deg,
-      #c62828 200deg 210deg,
-      #111 210deg 220deg,
-      #c62828 220deg 230deg,
-      #111 230deg 240deg,
-      #c62828 240deg 250deg,
-      #111 250deg 260deg,
-      #c62828 260deg 270deg,
-      #111 270deg 280deg,
-      #c62828 280deg 290deg,
-      #111 290deg 300deg,
-      #c62828 300deg 310deg,
-      #111 310deg 320deg,
-      #c62828 320deg 330deg,
-      #111 330deg 340deg,
-      #087f55 340deg 360deg
-    );
-
-  transition: transform 4s cubic-bezier(0.12, 0.8, 0.15, 1);
-}
-
-.pointer {
-  position: absolute;
-  z-index: 5;
-
-  top: -5px;
-  left: 50%;
-
-  transform: translateX(-50%);
-
-  width: 0;
-  height: 0;
-
-  border-left: 15px solid transparent;
-  border-right: 15px solid transparent;
-  border-top: 35px solid white;
-}
-
-/* 結果 */
-#result {
-  font-size: 24px;
-  font-weight: bold;
-  margin: 15px;
-}
-
-#message {
-  color: #aaa;
-  min-height: 25px;
-}
-
-/* 操作 */
-.panel {
-  width: min(500px, 92%);
-  margin: auto;
-}
-
-input {
-  width: 100%;
-  padding: 13px;
-  border-radius: 10px;
-  border: 2px solid #444;
-  background: #191d28;
-  color: white;
-  font-size: 18px;
-  text-align: center;
-}
-
-.buttons {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 10px;
-  margin-top: 10px;
-}
-
-button {
-  padding: 13px;
-  border: none;
-  border-radius: 10px;
-  background: #252b3a;
-  color: white;
-  font-size: 16px;
-  font-weight: bold;
-  cursor: pointer;
-}
-
-button:active {
-  transform: scale(0.96);
-}
-
-button.selected {
-  background: #d89b00;
-}
-
-#spin {
-  width: 100%;
-  margin-top: 15px;
-
-  background: linear-gradient(
-    135deg,
-    #ffd700,
-    #ff9500
-  );
-
-  color: #111;
-  font-size: 22px;
-}
-
-#spin:disabled {
-  opacity: 0.5;
-}
-
-/* ランキング */
-#ranking {
-  margin: 25px auto;
-  width: min(500px, 92%);
-
-  background: #191d28;
-  padding: 15px;
-  border-radius: 15px;
-}
-
-#ranking ol {
-  text-align: left;
-  padding-left: 35px;
-}
-
-#ranking li {
-  padding: 8px;
-  border-bottom: 1px solid #333;
-}
+.panel{min-width:0;min-height:0;overflow:hidden;padding:8px;border:1px solid #303e5d;border-radius:9px;background:linear-gradient(145deg,#141d30,#0d1320)}
+.game{display:flex;flex-direction:column;gap:6px}
+.stats{display:grid;grid-template-columns:1fr 1fr;gap:4px;flex-shrink:0}
+.stat{padding:5px;background:#0a1020;border-radius:6px}
+.stat b{font-size:13px}
+.progress{height:4px;background:#26334c;border-radius:5px;overflow:hidden;margin-top:3px}
+.progress div{height:100%;background:linear-gradient(90deg,#48e8ad,#ffdf68)}
+canvas{display:block;width:100%;height:auto;aspect-ratio:600/580;background:#0b1222;border-radius:6px}
+.zones{display:grid;grid-template-columns:repeat(5,1fr);gap:2px;flex-shrink:0}
+.zone{text-align:center;padding:5px 0;background:#17233a;border:1px solid #384b6b;border-radius:4px;font-weight:900;font-size:11px;color:#ffd45c}
+.zone.bad{color:#ff7187;background:#361923}
+.notice{height:16px;flex-shrink:0;text-align:center;font-size:10px;color:#4dffb5;white-space:nowrap}
+.primary{background:linear-gradient(135deg,#ffe78a,#ffad27);color:#251700;border:0;font-size:13px;padding:10px}
+.full{width:100%;flex-shrink:0}
+.toggle{display:flex;align-items:center;gap:5px;padding:6px;background:#0a1020;border-radius:6px;font-size:10px;flex-shrink:0}
+.toggle input{margin:0}
+.right{display:grid;grid-template-rows:auto auto auto minmax(0,1fr);gap:6px;min-height:0}
+.title{font-size:12px;font-weight:900;color:#ffd45c;margin-bottom:5px}
+.controls{display:grid;grid-template-columns:1fr 1fr;gap:4px}
+.controls label{display:block;font-size:9px;color:#aab9d3;margin-bottom:3px}
+select{width:100%;background:#080f1c;color:white;border:1px solid #465b7d;border-radius:5px;padding:6px 3px;font-size:11px}
+.upgrade{display:flex;align-items:center;justify-content:space-between;gap:4px;padding:6px;margin-top:4px;border:1px solid #293b59;border-radius:6px;background:#0a1020}
+.upgrade b{font-size:10px}
+.upgrade p{font-size:8px;color:#aab9d3;margin:2px 0}
+.upgrade button{min-width:76px;font-size:9px;padding:6px 3px}
+#rebirth{background:linear-gradient(135deg,#30205d,#17172d);border-color:#8c72cf}
+.purple{color:#c5aaff}
+#log{font-size:9px;line-height:1.4;color:#b4c2da;overflow:hidden;max-height:80px}
 </style>
 </head>
-
 <body>
-
-<h1>🎰 ROULETTE</h1>
-
-<div id="coins">
-🪙 100,000
-</div>
-
-<div class="wheel-area">
-
-  <div class="pointer"></div>
-
-  <div id="wheel"></div>
-
-</div>
-
-<div id="result">
-🎰 SPINしてね
-</div>
-
-<div id="message"></div>
-
-<div class="panel">
-
-  <input
-    id="bet"
-    type="number"
-    value="5000"
-    min="5000"
-    step="1000"
-  >
-
-  <div class="buttons">
-
-    <button id="red">
-      🔴 赤 ×2
-    </button>
-
-    <button id="black">
-      ⚫ 黒 ×2
-    </button>
-
-    <button id="even">
-      偶数 ×2
-    </button>
-
-    <button id="odd">
-      奇数 ×2
-    </button>
-
+<div class="app">
+<header>
+ <div><div class="logo">🪙 COIN DROP</div><div class="small">DROP · WIN · REBIRTH</div></div>
+ <div class="pill"><div class="small">所持コイン</div><div class="money" id="money">10,000</div></div>
+</header>
+<div class="layout">
+<section class="panel game">
+ <div class="stats">
+  <div class="stat"><div class="small">ユーザーレベル</div><b id="level">Lv.1</b><div class="progress"><div id="levelbar"></div></div><div class="small" id="levelprog">0 / 10</div></div>
+  <div class="stat"><div class="small">転生回数</div><b class="purple" id="rebirthCount">0回</b><div class="small">獲得倍率 <span id="bonus">×1.00</span></div></div>
+ </div>
+ <canvas id="board" width="600" height="580"></canvas>
+ <div class="zones"><div class="zone">×10</div><div class="zone bad">−20%</div><div class="zone">×2</div><div class="zone">×1.5</div><div class="zone">×5</div></div>
+ <div class="notice" id="notice">コインをドロップ！</div>
+ <button class="primary full" id="drop">🪙 コインをドロップ</button>
+ <label class="toggle"><input type="checkbox" id="continuous"><span id="continuousLabel">🔒 Lv.7で連続ドロップ解放</span></label>
+</section>
+<div class="right">
+ <section class="panel">
+  <div class="title">🎮 ドロップ設定</div>
+  <div class="controls">
+   <div><label>掛け金</label><select id="bet"><option value="100">100</option><option value="500">500</option><option value="1000">1,000</option><option value="5000">5,000</option><option value="10000">10,000</option><option value="50000">50,000</option><option value="100000">100,000</option><option value="500000">500,000</option><option value="1000000">1,000,000</option><option value="5000000">5,000,000</option></select></div>
+   <div><label>掛け金上限</label><div class="pill" id="cap">100</div></div>
+   <button id="maxbet">MAX BET</button><button id="save">セーブ</button>
   </div>
-
-  <button id="spin">
-    🎰 SPIN
-  </button>
-
+ </section>
+ <section class="panel">
+  <div class="title">🔒 強化ショップ <span class="small" id="shopStatus">Lv.7で解放</span></div>
+  <div class="upgrade"><div><b>🍀 当たりやすさ強化</b><p>マイナスゾーンを避けやすくする</p><p>Lv.<span id="luckLevel">0</span></p></div><button id="luckBuy">🔒 Lv.7</button></div>
+  <div class="upgrade"><div><b>⚡ 倍率レベルアップ</b><p>獲得倍率アップ</p><p>Lv.<span id="multiLevel">0</span></p></div><button id="multiBuy">🔒 Lv.7</button></div>
+  <div class="small">価格は購入ごとに1.5倍。倍率強化は2倍価格。</div>
+ </section>
+ <section class="panel" id="rebirth">
+  <div class="title purple">♻ 転生</div>
+  <div class="stats">
+   <div class="stat"><div class="small">必要所持金</div><b id="need">1,000,000</b></div>
+   <div class="stat"><div class="small">転生後倍率</div><b class="purple" id="nextBonus">×1.05</b></div>
+  </div>
+  <div class="progress"><div id="rebirthBar"></div></div>
+  <div class="small" id="rebirthProgress" style="margin:5px 0">あと990,000コイン</div>
+  <button class="full" id="rebirthBtn" disabled>🔒 所持金不足</button>
+  <div class="small" style="margin-top:5px">所持金・レベル・強化がリセット。転生回数とボーナスは維持。</div>
+  <div class="title" style="margin-top:8px">📜 履歴</div><div id="log">ゲーム開始！</div>
+  <button id="reset" style="width:100%;margin-top:5px">データ完全リセット</button>
+ </section>
 </div>
-
-<div id="ranking">
-
-  <h2>🏆 ランキング</h2>
-
-  <ol id="rankingList"></ol>
-
 </div>
-
+</div>
 <script>
-
-let coins = 100000;
-
-let bestCoins = 100000;
-
-let selected = "red";
-
-let spinning = false;
-
-let rotation = 0;
-
-
-/*
-  赤の数字
-*/
-const redNumbers = [
-  1,3,5,7,9,
-  12,14,16,18,
-  19,21,23,25,27,
-  30,32,34,36
-];
-
-
-/*
-  HTML要素を取得
-*/
-const wheel =
-  document.getElementById("wheel");
-
-const coinDisplay =
-  document.getElementById("coins");
-
-const result =
-  document.getElementById("result");
-
-const message =
-  document.getElementById("message");
-
-const betInput =
-  document.getElementById("bet");
-
-const spinButton =
-  document.getElementById("spin");
-
-const rankingList =
-  document.getElementById("rankingList");
-
-
-/*
-  コイン表示
-*/
-function updateCoins() {
-
-  coinDisplay.textContent =
-    "🪙 " + coins.toLocaleString();
-
+(()=>{
+"use strict";
+const $=id=>document.getElementById(id);
+const KEY="COIN_DROP_PORTRAIT_V1";
+const levels=[0,10,25,45,70,100,140,190,250,320];
+const caps=[100,500,1000,5000,10000,50000,100000,500000,1000000,5000000];
+const initial={money:10000,plays:0,rebirths:0,luck:0,multi:0};
+let s={...initial};
+try{s={...s,...JSON.parse(localStorage.getItem(KEY)||"{}")}}catch(e){}
+let busy=false,holding=false;
+const canvas=$("board"),ctx=canvas.getContext("2d");
+const fmt=n=>Math.floor(n).toLocaleString("en-US");
+const lv=()=>{let n=1;for(let i=0;i<levels.length;i++)if(s.plays>=levels[i])n=i+1;return n};
+const cap=()=>caps[lv()-1]||5000000;
+const need=()=>1000000*Math.pow(5,s.rebirths);
+const rb=()=>1+s.rebirths*.05;
+const luckPrice=()=>Math.floor(10000*Math.pow(1.5,s.luck));
+const multiPrice=()=>luckPrice()*2;
+const unlocked=()=>lv()>=7;
+function save(){try{localStorage.setItem(KEY,JSON.stringify(s))}catch(e){}}
+function log(t){$("log").innerHTML=t+"<br>"+$("log").innerHTML;const a=$("log").innerHTML.split("<br>");$("log").innerHTML=a.slice(0,4).join("<br>")}
+function say(t){$("notice").textContent=t}
+function update(){
+ const level=lv(),prev=levels[level-1],next=levels[level]||null;
+ $("money").textContent=fmt(s.money);$("level").textContent="Lv."+level;
+ $("levelprog").textContent=next?`${s.plays-prev} / ${next-prev} プレイ`:`MAX · ${s.plays}`;
+ $("levelbar").style.width=(next?100*(s.plays-prev)/(next-prev):100)+"%";
+ $("cap").textContent=fmt(cap());$("rebirthCount").textContent=s.rebirths+"回";
+ $("bonus").textContent="×"+rb().toFixed(2);$("nextBonus").textContent="×"+(rb()+.05).toFixed(2);
+ $("need").textContent=fmt(need());$("rebirthBar").style.width=Math.min(100,s.money/need()*100)+"%";
+ $("rebirthProgress").textContent=s.money>=need()?"転生可能！":`あと${fmt(need()-s.money)}コイン`;
+ $("rebirthBtn").disabled=s.money<need()||busy;
+ $("rebirthBtn").textContent=s.money>=need()?"♻ 転生する":"🔒 所持金不足";
+ $("shopStatus").textContent=unlocked()?"解放済み":"Lv.7で解放";
+ $("luckLevel").textContent=s.luck;$("multiLevel").textContent=s.multi;
+ $("luckBuy").disabled=!unlocked()||busy||s.money<luckPrice();
+ $("multiBuy").disabled=!unlocked()||busy||s.money<multiPrice();
+ $("luckBuy").textContent=unlocked()?fmt(luckPrice()):"🔒 Lv.7";
+ $("multiBuy").textContent=unlocked()?fmt(multiPrice()):"🔒 Lv.7";
+ $("continuous").disabled=!unlocked();
+ $("continuousLabel").textContent=unlocked()?"連続ドロップ（ON時は長押し）":"🔒 Lv.7で連続ドロップ解放";
+ [...$("bet").options].forEach(o=>o.disabled=Number(o.value)>cap());
+ if(Number($("bet").value)>cap())$("bet").value=String(cap());
+ $("drop").disabled=busy\vert{}\vert{}s.money<Number($("bet").value);
 }
-
-
-/*
-  選択ボタン
-*/
-function select(type) {
-
-  selected = type;
-
-  document
-    .querySelectorAll(".buttons button")
-    .forEach(button => {
-
-      button.classList.remove("selected");
-
-    });
-
-  document
-    .getElementById(type)
-    .classList.add("selected");
-
+function draw(){
+ ctx.clearRect(0,0,600,580);
+ const g=ctx.createLinearGradient(0,0,0,580);g.addColorStop(0,"#101a30");g.addColorStop(1,"#080d18");ctx.fillStyle=g;ctx.fillRect(0,0,600,580);
+ ctx.strokeStyle="#53698d";ctx.lineWidth=5;ctx.beginPath();ctx.moveTo(35,25);ctx.lineTo(35,480);ctx.lineTo(565,480);ctx.lineTo(565,25);ctx.stroke();
+ for(let r=0;r<9;r++){let y=80+r*43,n=8+r%2;for(let i=0;i<n;i++){let x=85+i*430/(n-1)+(r%2?0:12);ctx.beginPath();ctx.arc(x,y,5,0,7);ctx.fillStyle="#91a8ce";ctx.fill()}}
+ for(let i=0;i<5;i++){ctx.fillStyle=["#ffd45c","#ff647c","#5bffb6","#5bffb6","#ffd45c"][i];ctx.font="bold 23px Arial";ctx.textAlign="center";ctx.fillText(["×10","−20%","×2","×1.5","×5"][i],88+i*106,540)}
 }
-
-
-/*
-  色判定
-*/
-function getColor(number) {
-
-  if (number === 0) {
-    return "green";
-  }
-
-  if (redNumbers.includes(number)) {
-    return "red";
-  }
-
-  return "black";
-
+function animate(zone){
+ return new Promise(resolve=>{
+  let start=performance.now(),duration=850;
+  function frame(now){
+   let p=Math.min(1,(now-start)/duration),e=p*p*(3-2*p);
+   draw();
+   let x=300+(88+zone*106-300)*e+Math.sin(p*35)*9*(1-p),y=30+450*p;
+   ctx.beginPath();ctx.arc(x,y,10,0,7);ctx.fillStyle="#ffe28a";ctx.shadowColor="#ffbf32";ctx.shadowBlur=18;ctx.fill();ctx.shadowBlur=0;
+   if(p<1)requestAnimationFrame(frame);else resolve();
+  }requestAnimationFrame(frame);
+ });
 }
-
-
-/*
-  勝敗判定
-*/
-function checkWin(number) {
-
-  const color =
-    getColor(number);
-
-  if (selected === "red") {
-
-    return color === "red";
-
-  }
-
-  if (selected === "black") {
-
-    return color === "black";
-
-  }
-
-  if (selected === "even") {
-
-    return number !== 0 &&
-           number % 2 === 0;
-
-  }
-
-  if (selected === "odd") {
-
-    return number % 2 === 1;
-
-  }
-
-  return false;
-
+function choose(continuous){
+ let base=[.13,.24,.25,.23,.15],boost=Math.min(.04*s.luck,.18)+(continuous?.035:0);
+ let w=[base[0]+boost*.3,Math.max(.035,base[1]-boost),base[2]+boost*.15,base[3]+boost*.15,base[4]+boost*.4];
+ let x=Math.random()*w.reduce((a,b)=>a+b,0);
+ for(let i=0;i<5;i++){x-=w[i];if(x<=0)return i}return 4;
 }
-
-
-/*
-  ルーレット
-*/
-function spin() {
-
-  if (spinning) {
-    return;
-  }
-
-  const bet =
-    Number(betInput.value);
-
-
-  /*
-    ベットチェック
-  */
-  if (
-    !Number.isFinite(bet) ||
-    bet < 5000
-  ) {
-
-    message.textContent =
-      "⚠️ 最低5,000コインです";
-
-    return;
-
-  }
-
-
-  if (bet > coins) {
-
-    message.textContent =
-      "⚠️ コインが足りません";
-
-    return;
-
-  }
-
-
-  /*
-    スタート
-  */
-  spinning = true;
-
-  spinButton.disabled = true;
-
-  spinButton.textContent =
-    "🎰 回転中...";
-
-  message.textContent =
-    "";
-
-
-  /*
-    ベット分を減らす
-  */
-  coins -= bet;
-
-  updateCoins();
-
-
-  /*
-    0〜36
-  */
-  const number =
-    Math.floor(
-      Math.random() * 37
-    );
-
-
-  /*
-    ルーレットを回す
-  */
-  rotation +=
-    360 * 8 +
-    Math.random() * 360;
-
-  wheel.style.transform =
-    "rotate(" +
-    rotation +
-    "deg)";
-
-
-  /*
-    回転終了
-  */
-  setTimeout(() => {
-
-    const color =
-      getColor(number);
-
-    const win =
-      checkWin(number);
-
-
-    let reward = 0;
-
-
-    if (win) {
-
-      reward =
-        bet * 2;
-
-      coins += reward;
-
-      result.textContent =
-        "🎉 " +
-        number +
-        " — " +
-        (
-          color === "red"
-            ? "🔴 赤"
-            : "⚫ 黒"
-        );
-
-      message.textContent =
-        "+" +
-        reward.toLocaleString() +
-        " コイン！";
-
-    } else {
-
-      result.textContent =
-        "😢 " +
-        number +
-        " — " +
-        (
-          color === "green"
-            ? "🟢 緑"
-            : color === "red"
-              ? "🔴 赤"
-              : "⚫ 黒"
-        );
-
-      message.textContent =
-        "-" +
-        bet.toLocaleString() +
-        " コイン";
-
-    }
-
-
-    /*
-      最高コイン
-    */
-    if (coins > bestCoins) {
-
-      bestCoins =
-        coins;
-
-    }
-
-
-    updateCoins();
-
-    updateRanking();
-
-
-    /*
-      再びSPIN可能
-    */
-    spinning = false;
-
-    spinButton.disabled = false;
-
-    spinButton.textContent =
-      "🎰 SPIN";
-
-
-  }, 4100);
-
+async function dropOne(continuous=false){
+ if(busy)return false;
+ let bet=continuous?100:Number($("bet").value);
+ if(bet>cap()&&!continuous){say("掛け金上限を超えています");return false}
+ if(s.money<bet){say("コインが足りません");return false}
+ busy=true;s.money-=bet;s.plays++;save();update();
+ let old=lv(),zone=choose(continuous);
+ await animate(zone);
+ let mult=[10,.8,2,1.5,5][zone];
+ mult=zone===1?mult:mult*(1+s.multi*.1);
+ let payout=Math.floor(bet*mult*rb());s.money+=payout;
+ let names=["×10","−20%","×2","×1.5","×5"];
+ say(`${names[zone]}！ 払戻 ${fmt(payout)}`);
+ log(`${names[zone]} / 賭け${fmt(bet)} / 払戻${fmt(payout)}`);
+ if(lv()>old){say("🎉 LEVEL UP！ Lv."+lv());log("🎉 Lv."+lv()+" 到達！")}
+ busy=false;save();update();draw();return true;
 }
-
-
-/*
-  ランキング
-*/
-function updateRanking() {
-
-  const rankings = [
-
-    {
-      name: "あなた",
-      coins: bestCoins
-    },
-
-    {
-      name: "PLAYER 2",
-      coins: 85000
-    },
-
-    {
-      name: "PLAYER 3",
-      coins: 62000
-    },
-
-    {
-      name: "PLAYER 4",
-      coins: 45000
-    }
-
-  ];
-
-
-  rankings.sort(
-    (a,b) =>
-      b.coins - a.coins
-  );
-
-
-  rankingList.innerHTML = "";
-
-
-  rankings.forEach(
-    (player,index) => {
-
-      const li =
-        document.createElement("li");
-
-      li.textContent =
-        player.name +
-        " — " +
-        player.coins.toLocaleString() +
-        " コイン";
-
-      rankingList.appendChild(li);
-
-    }
-  );
-
+async function holdStart(e){
+ e.preventDefault();if(busy)return;
+ if(!$("continuous").checked){dropOne(false);return}
+ if(!unlocked()){say("🔒 Lv.7で解放！");return}
+ if(holding)return;holding=true;
+ while(holding){
+  if(s.money<100){holding=false;say("コイン不足");break}
+  await dropOne(true);
+  if(holding)await new Promise(r=>setTimeout(r,100));
+ }
 }
-
-
-/*
-  ボタン
-*/
-document
-  .getElementById("red")
-  .addEventListener(
-    "click",
-    () => select("red")
-  );
-
-document
-  .getElementById("black")
-  .addEventListener(
-    "click",
-    () => select("black")
-  );
-
-document
-  .getElementById("even")
-  .addEventListener(
-    "click",
-    () => select("even")
-  );
-
-document
-  .getElementById("odd")
-  .addEventListener(
-    "click",
-    () => select("odd")
-  );
-
-document
-  .getElementById("spin")
-  .addEventListener(
-    "click",
-    spin
-  );
-
-
-/*
-  最初の状態
-*/
-select("red");
-
-updateCoins();
-
-updateRanking();
-
+function stop(){holding=false}
+$("drop").addEventListener("pointerdown",holdStart);
+$("drop").addEventListener("pointerup",stop);
+$("drop").addEventListener("pointercancel",stop);
+$("drop").addEventListener("pointerleave",stop);
+window.addEventListener("pointerup",stop);window.addEventListener("blur",stop);
+$("maxbet").onclick=()=>{$("bet").value=String(cap());update()};
+$("save").onclick=()=>{save();say("💾 セーブしました")};
+$("luckBuy").onclick=()=>buy("luck");
+$("multiBuy").onclick=()=>buy("multi");
+function buy(kind){
+ if(!unlocked()){say("🔒 Lv.7で解放！");return}
+ let price=kind==="luck"?luckPrice():multiPrice();
+ if(s.money<price){say("コイン不足");return}
+ s.money-=price;s[kind]++;save();update();say("強化成功！");log("強化Lv."+s[kind]+" 購入");
+}
+$("rebirthBtn").onclick=()=>{
+ if(s.money<need()||busy)return;
+ if(!confirm("転生しますか？\n所持金・レベル・強化レベルがリセットされます。\n転生ボーナス＋5%。"))return;
+ s.money=0;s.plays=0;s.luck=0;s.multi=0;s.rebirths++;
+ save();update();draw();say("♻ 転生成功！ ×"+rb().toFixed(2));log("転生"+s.rebirths+"回目");
+};
+$("reset").onclick=()=>{
+ if(confirm("すべてのデータをリセットしますか？")){
+  s={...initial};save();update();draw();say("リセットしました");$("log").textContent="ゲーム開始！";
+ }
+};
+$("bet").onchange=update;
+$("continuous").onchange=()=>say($("continuous").checked?"連続ドロップON":"連続ドロップOFF");
+update();draw();
+})();
 </script>
-
 </body>
 </html>
