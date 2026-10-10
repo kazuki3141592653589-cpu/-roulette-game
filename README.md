@@ -9,46 +9,43 @@
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 html,body{margin:0;width:100%;height:100%;overflow:hidden;background:var(--bg);color:#f4f6ff;font-family:system-ui,sans-serif}
 button,input{font:inherit}
-#app{height:100dvh;max-width:1100px;margin:auto;padding:6px;display:grid;grid-template-columns:minmax(0,1.5fr) minmax(260px,.9fr);grid-template-rows:auto auto minmax(0,1fr);gap:6px;overflow:hidden}
-header,.stats{grid-column:1/-1}
-header{text-align:center;line-height:1}
-.logo{font-size:clamp(18px,4vh,30px);font-weight:1000;letter-spacing:4px;color:var(--gold);text-shadow:0 0 16px #ffb52b77}
-.sub{font-size:8px;letter-spacing:2px;color:#9ba8c2;margin-top:3px}
-.stats{display:grid;grid-template-columns:1fr 1fr;gap:6px}
-.stat,.panel{min-width:0;border:1px solid var(--line);border-radius:9px;background:linear-gradient(145deg,#182239,#0e1422)}
-.stat{padding:4px 9px}
-.label{font-size:9px;color:#9ba8c2}
-.value{font-size:clamp(16px,2.8vh,24px);font-weight:950}
-.gold{color:var(--gold)}
-.board-wrap{grid-column:1;grid-row:3;min-width:0;min-height:0;border:1px solid #39496c;border-radius:11px;overflow:hidden;background:#101827}
-#board{display:block;width:100%;height:100%}
-.controls{grid-column:2;grid-row:3;min-width:0;min-height:0;display:flex;flex-direction:column;gap:5px;overflow:hidden}
-.message{min-height:26px;display:flex;align-items:center;justify-content:center;text-align:center;padding:5px;border:1px solid #293550;border-radius:8px;background:#090e19;font-size:clamp(9px,1.4vh,12px);font-weight:850}
+#app{width:100vw;height:100vh;height:100dvh;padding:4px;display:grid;grid-template-columns:minmax(0,1.3fr) minmax(240px,.8fr);grid-template-rows:auto minmax(0,1fr);gap:4px;overflow:hidden}
+header{grid-column:1/-1;display:flex;align-items:center;justify-content:space-between;padding:0 4px;height:28px}
+.logo{font-size:16px;font-weight:1000;letter-spacing:2px;color:var(--gold);text-shadow:0 0 12px #ffb52b77}
+.sub{font-size:7px;letter-spacing:1px;color:#9ba8c2}
+.stats-inline{display:flex;gap:8px}
+.stat-pill{background:#182239;border:1px solid var(--line);border-radius:6px;padding:2px 8px;display:flex;align-items:center;gap:6px}
+.stat-pill .label{font-size:7px;color:#9ba8c2}
+.stat-pill .value{font-size:12px;font-weight:950;color:var(--gold)}
+.board-wrap{grid-column:1;grid-row:2;min-width:0;min-height:0;border:1px solid #39496c;border-radius:9px;overflow:hidden;background:#101827;display:flex;flex-direction:column}
+#board{display:block;width:100%;height:100%;object-fit:contain}
+.controls{grid-column:2;grid-row:2;min-width:0;min-height:0;display:flex;flex-direction:column;gap:4px;overflow:hidden}
+.message{min-height:22px;display:flex;align-items:center;justify-content:center;text-align:center;padding:3px;border:1px solid #293550;border-radius:6px;background:#090e19;font-size:9px;font-weight:850}
 .message.win{color:#ffe17b;border-color:#8a6822}
 .message.lose{color:#ff9aa3;border-color:#73313c}
-.panel{padding:7px}
-.section{font-size:9px;font-weight:950;color:#bdc8e0;letter-spacing:1px;margin-bottom:5px}
-.bet-row{display:grid;grid-template-columns:minmax(0,1fr) minmax(66px,.7fr);gap:5px}
-#bet{width:100%;min-width:0;padding:7px 6px;background:#080d18;border:1px solid #3b4864;border-radius:7px;color:white;font-size:15px;font-weight:900}
-.action{border:0;border-radius:7px;color:white;background:linear-gradient(135deg,#a43fda,#632c9e);font-size:10px;font-weight:950;padding:6px 3px}
-.quick{display:grid;grid-template-columns:repeat(4,1fr);gap:4px;margin-top:5px}
-.quick button,.reset{border:1px solid #3b4864;border-radius:6px;background:#202b43;color:white;font-size:9px;font-weight:850;padding:6px 0}
-.rules{font-size:8px;line-height:1.25;color:#9ba8c2;margin-top:5px}
+.panel{padding:5px;border:1px solid var(--line);border-radius:8px;background:linear-gradient(145deg,#182239,#0e1422)}
+.section{font-size:8px;font-weight:950;color:#bdc8e0;letter-spacing:1px;margin-bottom:3px}
+.bet-row{display:grid;grid-template-columns:minmax(0,1fr) minmax(56px,.6fr);gap:4px}
+#bet{width:100%;min-width:0;padding:4px 6px;background:#080d18;border:1px solid #3b4864;border-radius:6px;color:white;font-size:12px;font-weight:900}
+.action{border:0;border-radius:6px;color:white;background:linear-gradient(135deg,#a43fda,#632c9e);font-size:9px;font-weight:950;padding:4px 2px}
+.quick{display:grid;grid-template-columns:repeat(4,1fr);gap:3px;margin-top:3px}
+.quick button,.reset{border:1px solid #3b4864;border-radius:5px;background:#202b43;color:white;font-size:8px;font-weight:850;padding:4px 0}
+.rules{font-size:7px;line-height:1.2;color:#9ba8c2;margin-top:3px}
 .zone-panel{flex:1;min-height:0;display:flex;flex-direction:column;justify-content:space-between}
-.zones{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:3px}
-.zone{padding:6px 0;text-align:center;border-radius:5px;font-size:clamp(8px,1.3vh,11px);font-weight:1000;white-space:nowrap}
-.zone small{display:block;font-size:7px;margin-top:2px}
+.zones{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:2px}
+.zone{padding:4px 0;text-align:center;border-radius:4px;font-size:8px;font-weight:1000;white-space:nowrap}
+.zone small{display:block;font-size:6px;margin-top:1px}
 .z0{background:#9f2538}.z1{background:#15844c}.z2{background:#1f62bc}
 .z3{background:#763bb1}.z4{background:#b17b13}.z5{background:#485066}
-.foot{display:flex;align-items:center;justify-content:space-between;gap:5px;margin-top:5px}
-.reset{font-size:8px;padding:5px 7px;color:#bdc8df}
-.lever-machine{position:relative;flex:0 0 clamp(72px,15vh,120px);border:1px solid #39435d;border-radius:10px;background:linear-gradient(110deg,#252f45,#101624 45%,#202a40);overflow:hidden;display:flex;align-items:center;justify-content:space-around;padding:6px 10px;gap:8px;box-shadow:inset 0 0 15px #0009}
-.machine-label{font-size:clamp(9px,1.4vh,12px);font-weight:1000;letter-spacing:1px;color:#c9d3e8;text-align:center}
-.lever-hit{position:relative;flex:0 0 74px;height:100%;min-height:60px;border:0;background:transparent;padding:0;touch-action:manipulation;cursor:pointer}
-.lever-base{position:absolute;left:8px;right:8px;bottom:5px;height:17px;border-radius:50%;background:linear-gradient(#65728a,#20283a 55%,#090d16);border:2px solid #7d8aa1}
-.lever-pivot{position:absolute;left:50%;bottom:14px;width:17px;height:17px;transform:translateX(-50%);border-radius:50%;background:radial-gradient(circle at 30% 25%,#f7fbff,#8d9cb3 35%,#30394d 70%);border:2px solid #bac5d8;z-index:2}
-.lever-stick{position:absolute;left:50%;bottom:21px;width:9px;height:clamp(35px,8vh,65px);transform:translateX(-50%) rotate(-22deg);transform-origin:50% 100%;border-radius:6px;background:linear-gradient(90deg,#606b7f,#f2f5fa 35%,#7e899b 72%,#3b4659);transition:transform .22s}
-.lever-knob{position:absolute;left:50%;top:-13px;width:29px;height:29px;transform:translateX(-50%);border-radius:50%;background:radial-gradient(circle at 28% 22%,#fff0a5,#ffcb35 32%,#dc7610 72%,#7c3700);border:2px solid #ffdf72;box-shadow:0 0 13px #ffb82c77}
+.foot{display:flex;align-items:center;justify-content:space-between;gap:4px;margin-top:3px}
+.reset{font-size:7px;padding:3px 5px;color:#bdc8df}
+.lever-machine{position:relative;flex:0 0 54px;border:1px solid #39435d;border-radius:8px;background:linear-gradient(110deg,#252f45,#101624 45%,#202a40);overflow:hidden;display:flex;align-items:center;justify-content:space-around;padding:4px 8px;gap:6px;box-shadow:inset 0 0 10px #0009}
+.machine-label{font-size:8px;font-weight:1000;letter-spacing:1px;color:#c9d3e8;text-align:center}
+.lever-hit{position:relative;flex:0 0 56px;height:100%;border:0;background:transparent;padding:0;touch-action:manipulation;cursor:pointer}
+.lever-base{position:absolute;left:6px;right:6px;bottom:3px;height:12px;border-radius:50%;background:linear-gradient(#65728a,#20283a 55%,#090d16);border:1.5px solid #7d8aa1}
+.lever-pivot{position:absolute;left:50%;bottom:10px;width:12px;height:12px;transform:translateX(-50%);border-radius:50%;background:radial-gradient(circle at 30% 25%,#f7fbff,#8d9cb3 35%,#30394d 70%);border:1.5px solid #bac5d8;z-index:2}
+.lever-stick{position:absolute;left:50%;bottom:15px;width:7px;height:35px;transform:translateX(-50%) rotate(-22deg);transform-origin:50% 100%;border-radius:4px;background:linear-gradient(90deg,#606b7f,#f2f5fa 35%,#7e899b 72%,#3b4659);transition:transform .22s}
+.lever-knob{position:absolute;left:50%;top:-10px;width:22px;height:22px;transform:translateX(-50%);border-radius:50%;background:radial-gradient(circle at 28% 22%,#fff0a5,#ffcb35 32%,#dc7610 72%,#7c3700);border:1.5px solid #ffdf72;box-shadow:0 0 10px #ffb82c77}
 .lever-hit:active .lever-stick,.lever-machine.pulling .lever-stick{transform:translateX(-50%) rotate(40deg)}
 .lever-hit:disabled{opacity:.55}
 
@@ -62,16 +59,6 @@ header{text-align:center;line-height:1}
  #rotateNotice p{font-size:14px;line-height:1.8;color:#b4c2da}
 }
 @keyframes turn{from{transform:rotate(0)}to{transform:rotate(90deg)}}
-
-@media(max-height:430px) and (orientation:landscape){
- #app{padding:4px;gap:4px}
- .stat{padding:3px 7px}.panel{padding:5px}
- .logo{font-size:19px}.sub{display:none}
- .lever-machine{flex-basis:70px}
- .section{margin-bottom:3px}.quick{margin-top:3px}
- .quick button{padding:4px 0}.rules{font-size:7px}
- .zone{padding:4px 0}
-}
 </style>
 </head>
 <body>
@@ -82,11 +69,13 @@ header{text-align:center;line-height:1}
 </div>
 
 <main id="app">
-<header><div class="logo">COIN DROP</div><div class="sub">PULL THE LEVER • TEST YOUR LUCK</div></header>
-<div class="stats">
- <div class="stat"><div class="label">所持コイン</div><div class="value gold" id="balance">10,000</div></div>
- <div class="stat"><div class="label">今回のベット</div><div class="value" id="currentBet">100</div></div>
-</div>
+<header>
+ <div><div class="logo">COIN DROP</div><div class="sub">PULL THE LEVER • TEST YOUR LUCK</div></div>
+ <div class="stats-inline">
+  <div class="stat-pill"><span class="label">所持金</span><span class="value" id="balance">10,000</span></div>
+  <div class="stat-pill"><span class="label">ベット</span><span class="value" id="currentBet">100</span></div>
+ </div>
+</header>
 <div class="board-wrap"><canvas id="board" width="520" height="500"></canvas></div>
 <section class="controls">
  <div class="lever-machine" id="leverMachine">
@@ -98,21 +87,20 @@ header{text-align:center;line-height:1}
  </div>
  <div id="message" class="message">ベットを決めてレバーを引こう！</div>
  <div class="panel">
-  <div class="section">BET AMOUNT / ベット額</div>
-  <div class="bet-row"><input id="bet" type="number" inputmode="numeric" min="100" max="100000" step="100" value="100"><button id="allBet" class="action">ALL BET</button></div>
+  <div class="section">BET AMOUNT</div>
+  <div class="bet-row"><input id="bet" type="number" inputmode="numeric" min="100" max="100000" step="100" value="100"><button id="allBet" class="action">ALL</button></div>
   <div class="quick"><button data-bet="100">100</button><button data-bet="1000">1,000</button><button data-bet="10000">10,000</button><button data-bet="100000">100,000</button></div>
-  <div class="rules">ベット100〜100,000。中央へ寄りやすい落下調整。</div>
  </div>
  <div class="panel zone-panel">
   <div><div class="section">LANDING ZONES</div><div class="zones">
-   <div class="zone z4">×50<small>JACKPOT</small></div>
+   <div class="zone z4">×50<small>JP</small></div>
    <div class="zone z5">−100%<small>LOSE</small></div>
    <div class="zone z2">×5<small>WIN</small></div>
    <div class="zone z1">×2<small>WIN</small></div>
    <div class="zone z0">−50%<small>LOSS</small></div>
-   <div class="zone z3">×10<small>JACKPOT</small></div>
+   <div class="zone z3">×10<small>JP</small></div>
   </div></div>
-  <div class="foot"><span class="rules">端末にデータ保存</span><button id="reset" class="reset">リセット</button></div>
+  <div class="foot"><span class="rules">オートセーブ</span><button id="reset" class="reset">リセット</button></div>
  </div>
 </section>
 </main>
@@ -122,7 +110,7 @@ header{text-align:center;line-height:1}
 const $=id=>document.getElementById(id);
 const canvas=$('board'),ctx=canvas.getContext('2d');
 const betInput=$('bet'),lever=$('lever'),machine=$('leverMachine'),message=$('message');
-const W=520,H=500,KEY='coinDropLever_v2',START=10000;
+const W=520,H=500,KEY='coinDropLever_v3',START=10000;
 
 const zones=[
  {label:'×50',color:'#e0a51b',payout:50,type:'win'},
@@ -214,8 +202,8 @@ function finish(i,b){
  coin=null;busy=false;lever.disabled=false;betInput.disabled=false;
  machine.classList.remove('pulling');
  if(z.type==='win')say(`${z.label}！ +${p.toLocaleString()} コイン！`,'win');
- else if(z.type==='minus')say(`−50%… ${Math.floor(b/2).toLocaleString()} コイン損失`,'lose');
- else say('−100%… ベットを失った！','lose');
+ else if(z.type==='minus')say(`−50%… ${Math.floor(b/2).toLocaleString()} 損失`,'lose');
+ else say('−100%… ベット消失！','lose');
  draw();
 }
 function drop(){
@@ -223,7 +211,7 @@ function drop(){
  const b=getBet();
  if(balance<b){say('コインが足りない！','lose');return}
  busy=true;lever.disabled=true;betInput.disabled=true;
- balance-=b;save();update();say('コイン落下中…');
+ balance-=b;save();update();say('落下中…');
  machine.classList.add('pulling');
 
  setTimeout(()=>{
@@ -272,7 +260,7 @@ function drop(){
 lever.addEventListener('click',drop);
 $('allBet').addEventListener('click',()=>{
  betInput.value=Math.max(100,Math.min(100000,Math.floor(balance/100)*100));
- update();say('全ベットをセット！');
+ update();say('全ベット！');
 });
 document.querySelectorAll('[data-bet]').forEach(b=>b.addEventListener('click',()=>{
  betInput.value=Math.min(Number(b.dataset.bet),Math.max(100,balance));update();
@@ -280,7 +268,7 @@ document.querySelectorAll('[data-bet]').forEach(b=>b.addEventListener('click',()
 betInput.addEventListener('input',update);
 $('reset').addEventListener('click',()=>{
  if(busy)return;
- balance=START;save();update();say('データをリセットしたよ');
+ balance=START;save();update();say('リセットしました');
 });
 makePegs();load();update();draw();
 })();
