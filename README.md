@@ -5,229 +5,284 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
 <title>COIN DROP</title>
 <style>
+:root{--gold:#ffd45c;--bg:#080b13;--line:#303e5d}
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-html,body{margin:0;width:100%;height:100%;overflow-x:hidden;background:#080b13;color:#fff;font-family:Arial,sans-serif}
-button,select{font:inherit}
-button{border:1px solid #52678d;border-radius:7px;padding:7px;background:linear-gradient(#293957,#18233a);color:white;font-weight:800;font-size:11px}
-button:disabled{opacity:.35}
-.app{max-width:1100px;margin:auto;padding:8px;display:flex;flex-direction:column;gap:8px;min-height:100vh}
-header{height:38px;flex-shrink:0;display:flex;align-items:center;justify-content:space-between}
-.logo{font-weight:1000;font-size:21px;font-style:italic;color:#ffd45c}
-.small{font-size:9px;color:#aab9d3}
-.money{font-weight:900;font-size:18px;color:#ffd45c}
-.pill{padding:4px 8px;border:1px solid #303e5d;border-radius:7px;background:#121b2c}
-.layout{display:grid;grid-template-columns:1fr;gap:8px}
-@media(min-width:768px){
- .layout{grid-template-columns:1.1fr .9fr}
+html,body{margin:0;width:100%;height:100%;overflow:hidden;background:var(--bg);color:#f4f6ff;font-family:system-ui,sans-serif}
+button,input{font:inherit}
+#app{height:100dvh;max-width:1100px;margin:auto;padding:6px;display:grid;grid-template-columns:minmax(0,1.5fr) minmax(260px,.9fr);grid-template-rows:auto auto minmax(0,1fr);gap:6px;overflow:hidden}
+header,.stats{grid-column:1/-1}
+header{text-align:center;line-height:1}
+.logo{font-size:clamp(18px,4vh,30px);font-weight:1000;letter-spacing:4px;color:var(--gold);text-shadow:0 0 16px #ffb52b77}
+.sub{font-size:8px;letter-spacing:2px;color:#9ba8c2;margin-top:3px}
+.stats{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+.stat,.panel{min-width:0;border:1px solid var(--line);border-radius:9px;background:linear-gradient(145deg,#182239,#0e1422)}
+.stat{padding:4px 9px}
+.label{font-size:9px;color:#9ba8c2}
+.value{font-size:clamp(16px,2.8vh,24px);font-weight:950}
+.gold{color:var(--gold)}
+.board-wrap{grid-column:1;grid-row:3;min-width:0;min-height:0;border:1px solid #39496c;border-radius:11px;overflow:hidden;background:#101827}
+#board{display:block;width:100%;height:100%}
+.controls{grid-column:2;grid-row:3;min-width:0;min-height:0;display:flex;flex-direction:column;gap:5px;overflow:hidden}
+.message{min-height:26px;display:flex;align-items:center;justify-content:center;text-align:center;padding:5px;border:1px solid #293550;border-radius:8px;background:#090e19;font-size:clamp(9px,1.4vh,12px);font-weight:850}
+.message.win{color:#ffe17b;border-color:#8a6822}
+.message.lose{color:#ff9aa3;border-color:#73313c}
+.panel{padding:7px}
+.section{font-size:9px;font-weight:950;color:#bdc8e0;letter-spacing:1px;margin-bottom:5px}
+.bet-row{display:grid;grid-template-columns:minmax(0,1fr) minmax(66px,.7fr);gap:5px}
+#bet{width:100%;min-width:0;padding:7px 6px;background:#080d18;border:1px solid #3b4864;border-radius:7px;color:white;font-size:15px;font-weight:900}
+.action{border:0;border-radius:7px;color:white;background:linear-gradient(135deg,#a43fda,#632c9e);font-size:10px;font-weight:950;padding:6px 3px}
+.quick{display:grid;grid-template-columns:repeat(4,1fr);gap:4px;margin-top:5px}
+.quick button,.reset{border:1px solid #3b4864;border-radius:6px;background:#202b43;color:white;font-size:9px;font-weight:850;padding:6px 0}
+.rules{font-size:8px;line-height:1.25;color:#9ba8c2;margin-top:5px}
+.zone-panel{flex:1;min-height:0;display:flex;flex-direction:column;justify-content:space-between}
+.zones{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:3px}
+.zone{padding:6px 0;text-align:center;border-radius:5px;font-size:clamp(8px,1.3vh,11px);font-weight:1000;white-space:nowrap}
+.zone small{display:block;font-size:7px;margin-top:2px}
+.z0{background:#9f2538}.z1{background:#15844c}.z2{background:#1f62bc}
+.z3{background:#763bb1}.z4{background:#b17b13}.z5{background:#485066}
+.foot{display:flex;align-items:center;justify-content:space-between;gap:5px;margin-top:5px}
+.reset{font-size:8px;padding:5px 7px;color:#bdc8df}
+.lever-machine{position:relative;flex:0 0 clamp(72px,15vh,120px);border:1px solid #39435d;border-radius:10px;background:linear-gradient(110deg,#252f45,#101624 45%,#202a40);overflow:hidden;display:flex;align-items:center;justify-content:space-around;padding:6px 10px;gap:8px;box-shadow:inset 0 0 15px #0009}
+.machine-label{font-size:clamp(9px,1.4vh,12px);font-weight:1000;letter-spacing:1px;color:#c9d3e8;text-align:center}
+.lever-hit{position:relative;flex:0 0 74px;height:100%;min-height:60px;border:0;background:transparent;padding:0;touch-action:manipulation;cursor:pointer}
+.lever-base{position:absolute;left:8px;right:8px;bottom:5px;height:17px;border-radius:50%;background:linear-gradient(#65728a,#20283a 55%,#090d16);border:2px solid #7d8aa1}
+.lever-pivot{position:absolute;left:50%;bottom:14px;width:17px;height:17px;transform:translateX(-50%);border-radius:50%;background:radial-gradient(circle at 30% 25%,#f7fbff,#8d9cb3 35%,#30394d 70%);border:2px solid #bac5d8;z-index:2}
+.lever-stick{position:absolute;left:50%;bottom:21px;width:9px;height:clamp(35px,8vh,65px);transform:translateX(-50%) rotate(-22deg);transform-origin:50% 100%;border-radius:6px;background:linear-gradient(90deg,#606b7f,#f2f5fa 35%,#7e899b 72%,#3b4659);transition:transform .22s}
+.lever-knob{position:absolute;left:50%;top:-13px;width:29px;height:29px;transform:translateX(-50%);border-radius:50%;background:radial-gradient(circle at 28% 22%,#fff0a5,#ffcb35 32%,#dc7610 72%,#7c3700);border:2px solid #ffdf72;box-shadow:0 0 13px #ffb82c77}
+.lever-hit:active .lever-stick,.lever-machine.pulling .lever-stick{transform:translateX(-50%) rotate(40deg)}
+.lever-hit:disabled{opacity:.55}
+
+/* Rotate notice for portrait mode */
+#rotateNotice{display:none}
+@media(orientation:portrait){
+ #app{display:none}
+ #rotateNotice{position:fixed;inset:0;z-index:99;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:12px;background:radial-gradient(ellipse at center,#172442,#080b13);text-align:center;padding:24px}
+ #rotateNotice .phone{font-size:55px;animation:turn 1.4s ease-in-out infinite alternate}
+ #rotateNotice h1{margin:0;color:var(--gold)}
+ #rotateNotice p{font-size:14px;line-height:1.8;color:#b4c2da}
 }
-.panel{min-width:0;min-height:0;overflow:hidden;padding:8px;border:1px solid #303e5d;border-radius:9px;background:linear-gradient(145deg,#141d30,#0d1320)}
-.game{display:flex;flex-direction:column;gap:6px}
-.stats{display:grid;grid-template-columns:1fr 1fr;gap:4px;flex-shrink:0}
-.stat{padding:5px;background:#0a1020;border-radius:6px}
-.stat b{font-size:13px}
-.progress{height:4px;background:#26334c;border-radius:5px;overflow:hidden;margin-top:3px}
-.progress div{height:100%;background:linear-gradient(90deg,#48e8ad,#ffdf68)}
-canvas{display:block;width:100%;height:auto;aspect-ratio:600/580;background:#0b1222;border-radius:6px}
-.zones{display:grid;grid-template-columns:repeat(5,1fr);gap:2px;flex-shrink:0}
-.zone{text-align:center;padding:5px 0;background:#17233a;border:1px solid #384b6b;border-radius:4px;font-weight:900;font-size:11px;color:#ffd45c}
-.zone.bad{color:#ff7187;background:#361923}
-.notice{height:16px;flex-shrink:0;text-align:center;font-size:10px;color:#4dffb5;white-space:nowrap}
-.primary{background:linear-gradient(135deg,#ffe78a,#ffad27);color:#251700;border:0;font-size:13px;padding:10px}
-.full{width:100%;flex-shrink:0}
-.toggle{display:flex;align-items:center;gap:5px;padding:6px;background:#0a1020;border-radius:6px;font-size:10px;flex-shrink:0}
-.toggle input{margin:0}
-.right{display:grid;grid-template-rows:auto auto auto minmax(0,1fr);gap:6px;min-height:0}
-.title{font-size:12px;font-weight:900;color:#ffd45c;margin-bottom:5px}
-.controls{display:grid;grid-template-columns:1fr 1fr;gap:4px}
-.controls label{display:block;font-size:9px;color:#aab9d3;margin-bottom:3px}
-select{width:100%;background:#080f1c;color:white;border:1px solid #465b7d;border-radius:5px;padding:6px 3px;font-size:11px}
-.upgrade{display:flex;align-items:center;justify-content:space-between;gap:4px;padding:6px;margin-top:4px;border:1px solid #293b59;border-radius:6px;background:#0a1020}
-.upgrade b{font-size:10px}
-.upgrade p{font-size:8px;color:#aab9d3;margin:2px 0}
-.upgrade button{min-width:76px;font-size:9px;padding:6px 3px}
-#rebirth{background:linear-gradient(135deg,#30205d,#17172d);border-color:#8c72cf}
-.purple{color:#c5aaff}
-#log{font-size:9px;line-height:1.4;color:#b4c2da;overflow:hidden;max-height:80px}
+@keyframes turn{from{transform:rotate(0)}to{transform:rotate(90deg)}}
+
+@media(max-height:430px) and (orientation:landscape){
+ #app{padding:4px;gap:4px}
+ .stat{padding:3px 7px}.panel{padding:5px}
+ .logo{font-size:19px}.sub{display:none}
+ .lever-machine{flex-basis:70px}
+ .section{margin-bottom:3px}.quick{margin-top:3px}
+ .quick button{padding:4px 0}.rules{font-size:7px}
+ .zone{padding:4px 0}
+}
 </style>
 </head>
 <body>
-<div class="app">
-<header>
- <div><div class="logo">🪙 COIN DROP</div><div class="small">DROP · WIN · REBIRTH</div></div>
- <div class="pill"><div class="small">所持コイン</div><div class="money" id="money">10,000</div></div>
-</header>
-<div class="layout">
-<section class="panel game">
- <div class="stats">
-  <div class="stat"><div class="small">ユーザーレベル</div><b id="level">Lv.1</b><div class="progress"><div id="levelbar"></div></div><div class="small" id="levelprog">0 / 10</div></div>
-  <div class="stat"><div class="small">転生回数</div><b class="purple" id="rebirthCount">0回</b><div class="small">獲得倍率 <span id="bonus">×1.00</span></div></div>
+<div id="rotateNotice">
+ <div class="phone">📱</div>
+ <h1>COIN DROP</h1>
+ <p>スマホを横向きにしてください！<br>横画面専用ゲームです。</p>
+</div>
+
+<main id="app">
+<header><div class="logo">COIN DROP</div><div class="sub">PULL THE LEVER • TEST YOUR LUCK</div></header>
+<div class="stats">
+ <div class="stat"><div class="label">所持コイン</div><div class="value gold" id="balance">10,000</div></div>
+ <div class="stat"><div class="label">今回のベット</div><div class="value" id="currentBet">100</div></div>
+</div>
+<div class="board-wrap"><canvas id="board" width="520" height="500"></canvas></div>
+<section class="controls">
+ <div class="lever-machine" id="leverMachine">
+  <div class="machine-label">PULL<br>LEVER</div>
+  <button class="lever-hit" id="lever" aria-label="レバーを引く">
+   <span class="lever-base"></span><span class="lever-pivot"></span><span class="lever-stick"><span class="lever-knob"></span></span>
+  </button>
+  <div class="machine-label">引く！</div>
  </div>
- <canvas id="board" width="600" height="580"></canvas>
- <div class="zones"><div class="zone">×10</div><div class="zone bad">−20%</div><div class="zone">×2</div><div class="zone">×1.5</div><div class="zone">×5</div></div>
- <div class="notice" id="notice">コインをドロップ！</div>
- <button class="primary full" id="drop">🪙 コインをドロップ</button>
- <label class="toggle"><input type="checkbox" id="continuous"><span id="continuousLabel">🔒 Lv.7で連続ドロップ解放</span></label>
+ <div id="message" class="message">ベットを決めてレバーを引こう！</div>
+ <div class="panel">
+  <div class="section">BET AMOUNT / ベット額</div>
+  <div class="bet-row"><input id="bet" type="number" inputmode="numeric" min="100" max="100000" step="100" value="100"><button id="allBet" class="action">ALL BET</button></div>
+  <div class="quick"><button data-bet="100">100</button><button data-bet="1000">1,000</button><button data-bet="10000">10,000</button><button data-bet="100000">100,000</button></div>
+  <div class="rules">ベット100〜100,000。中央へ寄りやすい落下調整。</div>
+ </div>
+ <div class="panel zone-panel">
+  <div><div class="section">LANDING ZONES</div><div class="zones">
+   <div class="zone z4">×50<small>JACKPOT</small></div>
+   <div class="zone z5">−100%<small>LOSE</small></div>
+   <div class="zone z2">×5<small>WIN</small></div>
+   <div class="zone z1">×2<small>WIN</small></div>
+   <div class="zone z0">−50%<small>LOSS</small></div>
+   <div class="zone z3">×10<small>JACKPOT</small></div>
+  </div></div>
+  <div class="foot"><span class="rules">端末にデータ保存</span><button id="reset" class="reset">リセット</button></div>
+ </div>
 </section>
-<div class="right">
- <section class="panel">
-  <div class="title">🎮 ドロップ設定</div>
-  <div class="controls">
-   <div><label>掛け金</label><select id="bet"><option value="100">100</option><option value="500">500</option><option value="1000">1,000</option><option value="5000">5,000</option><option value="10000">10,000</option><option value="50000">50,000</option><option value="100000">100,000</option><option value="500000">500,000</option><option value="1000000">1,000,000</option><option value="5000000">5,000,000</option></select></div>
-   <div><label>掛け金上限</label><div class="pill" id="cap">100</div></div>
-   <button id="maxbet">MAX BET</button><button id="save">セーブ</button>
-  </div>
- </section>
- <section class="panel">
-  <div class="title">🔒 強化ショップ <span class="small" id="shopStatus">Lv.7で解放</span></div>
-  <div class="upgrade"><div><b>🍀 当たりやすさ強化</b><p>マイナスゾーンを避けやすくする</p><p>Lv.<span id="luckLevel">0</span></p></div><button id="luckBuy">🔒 Lv.7</button></div>
-  <div class="upgrade"><div><b>⚡ 倍率レベルアップ</b><p>獲得倍率アップ</p><p>Lv.<span id="multiLevel">0</span></p></div><button id="multiBuy">🔒 Lv.7</button></div>
-  <div class="small">価格は購入ごとに1.5倍。倍率強化は2倍価格。</div>
- </section>
- <section class="panel" id="rebirth">
-  <div class="title purple">♻ 転生</div>
-  <div class="stats">
-   <div class="stat"><div class="small">必要所持金</div><b id="need">1,000,000</b></div>
-   <div class="stat"><div class="small">転生後倍率</div><b class="purple" id="nextBonus">×1.05</b></div>
-  </div>
-  <div class="progress"><div id="rebirthBar"></div></div>
-  <div class="small" id="rebirthProgress" style="margin:5px 0">あと990,000コイン</div>
-  <button class="full" id="rebirthBtn" disabled>🔒 所持金不足</button>
-  <div class="small" style="margin-top:5px">所持金・レベル・強化がリセット。転生回数とボーナスは維持。</div>
-  <div class="title" style="margin-top:8px">📜 履歴</div><div id="log">ゲーム開始！</div>
-  <button id="reset" style="width:100%;margin-top:5px">データ完全リセット</button>
- </section>
-</div>
-</div>
-</div>
+</main>
 <script>
 (()=>{
-"use strict";
+'use strict';
 const $=id=>document.getElementById(id);
-const KEY="COIN_DROP_PORTRAIT_V1";
-const levels=[0,10,25,45,70,100,140,190,250,320];
-const caps=[100,500,1000,5000,10000,50000,100000,500000,1000000,5000000];
-const initial={money:10000,plays:0,rebirths:0,luck:0,multi:0};
-let s={...initial};
-try{s={...s,...JSON.parse(localStorage.getItem(KEY)||"{}")}}catch(e){}
-let busy=false,holding=false;
-const canvas=$("board"),ctx=canvas.getContext("2d");
-const fmt=n=>Math.floor(n).toLocaleString("en-US");
-const lv=()=>{let n=1;for(let i=0;i<levels.length;i++)if(s.plays>=levels[i])n=i+1;return n};
-const cap=()=>caps[lv()-1]||5000000;
-const need=()=>1000000*Math.pow(5,s.rebirths);
-const rb=()=>1+s.rebirths*.05;
-const luckPrice=()=>Math.floor(10000*Math.pow(1.5,s.luck));
-const multiPrice=()=>luckPrice()*2;
-const unlocked=()=>lv()>=7;
-function save(){try{localStorage.setItem(KEY,JSON.stringify(s))}catch(e){}}
-function log(t){$("log").innerHTML=t+"<br>"+$("log").innerHTML;const a=$("log").innerHTML.split("<br>");$("log").innerHTML=a.slice(0,4).join("<br>")}
-function say(t){$("notice").textContent=t}
+const canvas=$('board'),ctx=canvas.getContext('2d');
+const betInput=$('bet'),lever=$('lever'),machine=$('leverMachine'),message=$('message');
+const W=520,H=500,KEY='coinDropLever_v2',START=10000;
+
+const zones=[
+ {label:'×50',color:'#e0a51b',payout:50,type:'win'},
+ {label:'−100%',color:'#58627b',payout:0,type:'zero'},
+ {label:'×5',color:'#2777df',payout:5,type:'win'},
+ {label:'×2',color:'#18a965',payout:2,type:'win'},
+ {label:'−50%',color:'#b92e43',payout:.5,type:'minus'},
+ {label:'×10',color:'#944be0',payout:10,type:'win'}
+];
+
+let balance=START,busy=false,coin=null,pegs=[];
+
+function load(){
+ try{
+  const d=JSON.parse(localStorage.getItem(KEY));
+  if(d&&Number.isFinite(d.balance)&&d.balance>=0)balance=d.balance;
+ }catch(e){}
+}
+function save(){
+ try{localStorage.setItem(KEY,JSON.stringify({balance}));}catch(e){}
+}
+function getBet(){
+ let n=Math.floor(Number(betInput.value)||100);
+ n=Math.max(100,Math.min(100000,n,Math.max(100,balance)));
+ return Math.floor(n/100)*100||100;
+}
 function update(){
- const level=lv(),prev=levels[level-1],next=levels[level]||null;
- $("money").textContent=fmt(s.money);$("level").textContent="Lv."+level;
- $("levelprog").textContent=next?`${s.plays-prev} / ${next-prev} プレイ`:`MAX · ${s.plays}`;
- $("levelbar").style.width=(next?100*(s.plays-prev)/(next-prev):100)+"%";
- $("cap").textContent=fmt(cap());$("rebirthCount").textContent=s.rebirths+"回";
- $("bonus").textContent="×"+rb().toFixed(2);$("nextBonus").textContent="×"+(rb()+.05).toFixed(2);
- $("need").textContent=fmt(need());$("rebirthBar").style.width=Math.min(100,s.money/need()*100)+"%";
- $("rebirthProgress").textContent=s.money>=need()?"転生可能！":`あと${fmt(need()-s.money)}コイン`;
- $("rebirthBtn").disabled=s.money<need()||busy;
- $("rebirthBtn").textContent=s.money>=need()?"♻ 転生する":"🔒 所持金不足";
- $("shopStatus").textContent=unlocked()?"解放済み":"Lv.7で解放";
- $("luckLevel").textContent=s.luck;$("multiLevel").textContent=s.multi;
- $("luckBuy").disabled=!unlocked()||busy||s.money<luckPrice();
- $("multiBuy").disabled=!unlocked()||busy||s.money<multiPrice();
- $("luckBuy").textContent=unlocked()?fmt(luckPrice()):"🔒 Lv.7";
- $("multiBuy").textContent=unlocked()?fmt(multiPrice()):"🔒 Lv.7";
- $("continuous").disabled=!unlocked();
- $("continuousLabel").textContent=unlocked()?"連続ドロップ（ON時は長押し）":"🔒 Lv.7で連続ドロップ解放";
- [...$("bet").options].forEach(o=>o.disabled=Number(o.value)>cap());
- if(Number($("bet").value)>cap())$("bet").value=String(cap());
- $("drop").disabled=busy\vert{}\vert{}s.money<Number($("bet").value);
+ $('balance').textContent=Math.floor(balance).toLocaleString('en-US');$('currentBet').textContent=getBet().toLocaleString('en-US');
+}
+function say(t,type=''){
+ message.textContent=t;
+ message.className='message '+type;
+}
+function makePegs(){
+ pegs=[];
+ for(let r=0;r<8;r++){
+  let count=5+r,y=55+r*36,step=456/(count-1);
+  for(let c=0;c<count;c++){
+   let x=32+c*step;
+   if(r%2===0)x+=step/2-228/(count-1);
+   if(x>18&&x<502)pegs.push({x,y,r:5.2});
+  }
+ }
 }
 function draw(){
- ctx.clearRect(0,0,600,580);
- const g=ctx.createLinearGradient(0,0,0,580);g.addColorStop(0,"#101a30");g.addColorStop(1,"#080d18");ctx.fillStyle=g;ctx.fillRect(0,0,600,580);
- ctx.strokeStyle="#53698d";ctx.lineWidth=5;ctx.beginPath();ctx.moveTo(35,25);ctx.lineTo(35,480);ctx.lineTo(565,480);ctx.lineTo(565,25);ctx.stroke();
- for(let r=0;r<9;r++){let y=80+r*43,n=8+r%2;for(let i=0;i<n;i++){let x=85+i*430/(n-1)+(r%2?0:12);ctx.beginPath();ctx.arc(x,y,5,0,7);ctx.fillStyle="#91a8ce";ctx.fill()}}
- for(let i=0;i<5;i++){ctx.fillStyle=["#ffd45c","#ff647c","#5bffb6","#5bffb6","#ffd45c"][i];ctx.font="bold 23px Arial";ctx.textAlign="center";ctx.fillText(["×10","−20%","×2","×1.5","×5"][i],88+i*106,540)}
+ ctx.clearRect(0,0,W,H);
+ let g=ctx.createLinearGradient(0,0,0,H);
+ g.addColorStop(0,'#14213a');g.addColorStop(1,'#080e19');
+ ctx.fillStyle=g;ctx.fillRect(0,0,W,H);
+
+ ctx.fillStyle='#273652';
+ ctx.beginPath();ctx.moveTo(224,8);ctx.lineTo(296,8);
+ ctx.lineTo(280,42);ctx.lineTo(240,42);ctx.closePath();ctx.fill();
+ ctx.fillStyle='#ffe27a';ctx.fillRect(253,12,14,22);
+
+ for(const p of pegs){
+  ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
+  ctx.fillStyle='#75d9ff';ctx.shadowColor='#39aaff';ctx.shadowBlur=7;ctx.fill();
+  ctx.shadowBlur=0;
+  ctx.beginPath();ctx.arc(p.x-1.2,p.y-1.5,1.5,0,Math.PI*2);
+  ctx.fillStyle='#fff';ctx.fill();
+ }
+
+ const top=390,bw=W/6;
+ for(let i=0;i<6;i++){
+  ctx.globalAlpha=.22;ctx.fillStyle=zones[i].color;
+  ctx.fillRect(i*bw,top,bw,H-top);ctx.globalAlpha=1;
+  ctx.strokeStyle='#8390ad';ctx.lineWidth=2;
+  ctx.beginPath();ctx.moveTo(i*bw,top);ctx.lineTo(i*bw,H);ctx.stroke();
+  ctx.fillStyle=zones[i].color;ctx.fillRect(i*bw+2,top+2,bw-4,6);
+  ctx.fillStyle='#fff';ctx.font='bold 18px system-ui';ctx.textAlign='center';
+  ctx.fillText(zones[i].label,i*bw+bw/2,top+35);
+ }
+ ctx.strokeStyle='#8390ad';ctx.beginPath();ctx.moveTo(W-1,top);ctx.lineTo(W-1,H);ctx.stroke();
+
+ if(coin){
+  ctx.save();ctx.translate(coin.x,coin.y);ctx.rotate(coin.spin);
+  ctx.shadowColor='#ffdc64';ctx.shadowBlur=14;
+  ctx.beginPath();ctx.arc(0,0,10,0,Math.PI*2);ctx.fillStyle='#ffcf3f';ctx.fill();
+  ctx.shadowBlur=0;ctx.lineWidth=2;ctx.strokeStyle='#fff0a5';ctx.stroke();
+  ctx.fillStyle='#9b5c00';ctx.font='bold 12px system-ui';
+  ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText('¢',0,0);
+  ctx.restore();
+ }
 }
-function animate(zone){
- return new Promise(resolve=>{
-  let start=performance.now(),duration=850;
+function finish(i,b){
+ const z=zones[i],p=Math.floor(b*z.payout);
+ balance+=p;save();update();
+ coin=null;busy=false;lever.disabled=false;betInput.disabled=false;
+ machine.classList.remove('pulling');
+ if(z.type==='win')say(`${z.label}！ +${p.toLocaleString()} コイン！`,'win');
+ else if(z.type==='minus')say(`−50%… ${Math.floor(b/2).toLocaleString()} コイン損失`,'lose');
+ else say('−100%… ベットを失った！','lose');
+ draw();
+}
+function drop(){
+ if(busy)return;
+ const b=getBet();
+ if(balance<b){say('コインが足りない！','lose');return}
+ busy=true;lever.disabled=true;betInput.disabled=true;
+ balance-=b;save();update();say('コイン落下中…');
+ machine.classList.add('pulling');
+
+ setTimeout(()=>{
+  machine.classList.remove('pulling');
+  coin={x:260+(Math.random()-.5)*6,y:40,vx:(Math.random()-.5)*1.3,vy:0,spin:0};
+  let last=performance.now();
+
   function frame(now){
-   let p=Math.min(1,(now-start)/duration),e=p*p*(3-2*p);
-   draw();
-   let x=300+(88+zone*106-300)*e+Math.sin(p*35)*9*(1-p),y=30+450*p;
-   ctx.beginPath();ctx.arc(x,y,10,0,7);ctx.fillStyle="#ffe28a";ctx.shadowColor="#ffbf32";ctx.shadowBlur=18;ctx.fill();ctx.shadowBlur=0;
-   if(p<1)requestAnimationFrame(frame);else resolve();
-  }requestAnimationFrame(frame);
- });
+   if(!coin)return;
+   let dt=Math.min(2,(now-last)/16.67||1);last=now;
+   for(let k=0;k<Math.ceil(dt);k++){
+    coin.vy+=.17;
+    coin.vx+=(260-coin.x)*.00045;
+    coin.vx*=.992;
+    coin.x+=coin.vx;
+    coin.y+=coin.vy;
+    coin.spin+=.09;
+
+    for(const p of pegs){
+     let dx=coin.x-p.x,dy=coin.y-p.y,d=Math.hypot(dx,dy),min=p.r+9;
+     if(d<min&&d>0){
+      let nx=dx/d,ny=dy/d;
+      coin.x=p.x+nx*min;coin.y=p.y+ny*min;
+      let dot=coin.vx*nx+coin.vy*ny;
+      if(dot<0){coin.vx-=1.72*dot*nx;coin.vy-=1.72*dot*ny}
+      coin.vx+=(Math.random()-.5)*.65;
+      coin.vy=Math.min(coin.vy,-.35);
+     }
+    }
+    if(coin.x<12){coin.x=12;coin.vx=Math.abs(coin.vx)*.7}
+    if(coin.x>508){coin.x=508;coin.vx=-Math.abs(coin.vx)*.7}
+    coin.vx=Math.max(-3.5,Math.min(3.5,coin.vx));
+    coin.vy=Math.min(coin.vy,6.2);
+   }
+
+   if(coin.y>=390){
+    coin.y=402;
+    const landed=Math.max(0,Math.min(5,Math.floor(coin.x/(W/6))));
+    draw();finish(landed,b);return;
+   }
+   draw();requestAnimationFrame(frame);
+  }
+  requestAnimationFrame(frame);
+ },260);
 }
-function choose(continuous){
- let base=[.13,.24,.25,.23,.15],boost=Math.min(.04*s.luck,.18)+(continuous?.035:0);
- let w=[base[0]+boost*.3,Math.max(.035,base[1]-boost),base[2]+boost*.15,base[3]+boost*.15,base[4]+boost*.4];
- let x=Math.random()*w.reduce((a,b)=>a+b,0);
- for(let i=0;i<5;i++){x-=w[i];if(x<=0)return i}return 4;
-}
-async function dropOne(continuous=false){
- if(busy)return false;
- let bet=continuous?100:Number($("bet").value);
- if(bet>cap()&&!continuous){say("掛け金上限を超えています");return false}
- if(s.money<bet){say("コインが足りません");return false}
- busy=true;s.money-=bet;s.plays++;save();update();
- let old=lv(),zone=choose(continuous);
- await animate(zone);
- let mult=[10,.8,2,1.5,5][zone];
- mult=zone===1?mult:mult*(1+s.multi*.1);
- let payout=Math.floor(bet*mult*rb());s.money+=payout;
- let names=["×10","−20%","×2","×1.5","×5"];
- say(`${names[zone]}！ 払戻 ${fmt(payout)}`);
- log(`${names[zone]} / 賭け${fmt(bet)} / 払戻${fmt(payout)}`);
- if(lv()>old){say("🎉 LEVEL UP！ Lv."+lv());log("🎉 Lv."+lv()+" 到達！")}
- busy=false;save();update();draw();return true;
-}
-async function holdStart(e){
- e.preventDefault();if(busy)return;
- if(!$("continuous").checked){dropOne(false);return}
- if(!unlocked()){say("🔒 Lv.7で解放！");return}
- if(holding)return;holding=true;
- while(holding){
-  if(s.money<100){holding=false;say("コイン不足");break}
-  await dropOne(true);
-  if(holding)await new Promise(r=>setTimeout(r,100));
- }
-}
-function stop(){holding=false}
-$("drop").addEventListener("pointerdown",holdStart);
-$("drop").addEventListener("pointerup",stop);
-$("drop").addEventListener("pointercancel",stop);
-$("drop").addEventListener("pointerleave",stop);
-window.addEventListener("pointerup",stop);window.addEventListener("blur",stop);
-$("maxbet").onclick=()=>{$("bet").value=String(cap());update()};
-$("save").onclick=()=>{save();say("💾 セーブしました")};
-$("luckBuy").onclick=()=>buy("luck");
-$("multiBuy").onclick=()=>buy("multi");
-function buy(kind){
- if(!unlocked()){say("🔒 Lv.7で解放！");return}
- let price=kind==="luck"?luckPrice():multiPrice();
- if(s.money<price){say("コイン不足");return}
- s.money-=price;s[kind]++;save();update();say("強化成功！");log("強化Lv."+s[kind]+" 購入");
-}
-$("rebirthBtn").onclick=()=>{
- if(s.money<need()||busy)return;
- if(!confirm("転生しますか？\n所持金・レベル・強化レベルがリセットされます。\n転生ボーナス＋5%。"))return;
- s.money=0;s.plays=0;s.luck=0;s.multi=0;s.rebirths++;
- save();update();draw();say("♻ 転生成功！ ×"+rb().toFixed(2));log("転生"+s.rebirths+"回目");
-};
-$("reset").onclick=()=>{
- if(confirm("すべてのデータをリセットしますか？")){
-  s={...initial};save();update();draw();say("リセットしました");$("log").textContent="ゲーム開始！";
- }
-};
-$("bet").onchange=update;
-$("continuous").onchange=()=>say($("continuous").checked?"連続ドロップON":"連続ドロップOFF");
-update();draw();
+lever.addEventListener('click',drop);
+$('allBet').addEventListener('click',()=>{
+ betInput.value=Math.max(100,Math.min(100000,Math.floor(balance/100)*100));
+ update();say('全ベットをセット！');
+});
+document.querySelectorAll('[data-bet]').forEach(b=>b.addEventListener('click',()=>{
+ betInput.value=Math.min(Number(b.dataset.bet),Math.max(100,balance));update();
+}));
+betInput.addEventListener('input',update);
+$('reset').addEventListener('click',()=>{
+ if(busy)return;
+ balance=START;save();update();say('データをリセットしたよ');
+});
+makePegs();load();update();draw();
 })();
 </script>
 </body>
