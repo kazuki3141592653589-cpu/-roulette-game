@@ -74,11 +74,13 @@ header{
  border:0;border-radius:3px;color:white;
  background:linear-gradient(135deg,#a43fda,#632c9e);
  font-size:7.5px;font-weight:950;padding:1px;
+ cursor:pointer;
 }
 .quick{display:grid;grid-template-columns:repeat(4,1fr);gap:2px;margin-top:1px}
 .quick button,.reset{
  border:1px solid #3b4864;border-radius:2px;
  background:#202b43;color:white;font-size:6.5px;font-weight:850;padding:1px 0;
+ cursor:pointer;
 }
 
 .zone-panel{
@@ -171,7 +173,7 @@ header{
 const $=id=>document.getElementById(id);
 const canvas=$('board'),ctx=canvas.getContext('2d');
 const betInput=$('bet'),lever=$('lever'),machine=$('leverMachine'),message=$('message');
-const W=520,H=500,KEY='coinDropLever_v6',START=10000;
+const W=520,H=500,KEY='coinDropLever_v7',START=10000;
 
 const zones=[
  {label:'×50',color:'#e0a51b',payout:50,type:'win'},
@@ -327,7 +329,7 @@ document.querySelectorAll('[data-bet]').forEach(b=>b.addEventListener('click',()
  betInput.value=Math.min(Number(b.dataset.bet),Math.max(100,balance));update();
 }));
 betInput.addEventListener('input',update);
-$('reset').`, `addEventListener('click',()=>{
+$('reset').addEventListener('click',()=>{
  if(busy)return;
  balance=START;save();update();say('リセットしました');
 });
